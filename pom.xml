@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>example.con</groupId>
-    <artifactId>dic Web Bot</artifactId>
+    <artifactId>dicWebBot</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>

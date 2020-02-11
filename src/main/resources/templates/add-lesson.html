@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add lesson to list</title>
+</head>
+<body>
+    <h1>Form: Add lesson:</h1>
+    <form action="#" th:action="@{/add-lesson}" th:object="${lesson}" method="post">
+        <p>Група: <input type="text" th:field="*{groupName}" /></p>
+        <p>День: <input type="text" th:field="*{day}" /></p>
+        <p>№: <input type="text" th:field="*{number}" /></p>
+        <p>Дисципліна: <input type="text" th:field="*{lessonName}" /></p>
+        <p>Викладач: <input type="text" th:field="*{teacher}" /></p>
+        <p>Аудиторія: <input type="text" th:field="*{room}" /></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+</body>
+</html>

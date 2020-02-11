@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Список уроку, який був добавлений.</title>
+</head>
+<body>
+    <h1>Lesson list:</h1>
+    <p th:text="'Група: ' + ${lesson.groupName}" />
+    <p th:text="'День: ' + ${lesson.day}" />
+    <p th:text="'№: ' + ${lesson.number}" />
+    <p th:text="'Дисципліна: ' + ${lesson.lessonName}" />
+    <p th:text="'Викладач: ' + ${lesson.teacher}" />
+    <p th:text="'Аудитрія: ' + ${lesson.room}" />
+    <a href="/add-lesson"> Add new lesson!</a>
+</body>
+</html>

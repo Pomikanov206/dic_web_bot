@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Розклад</title>
+</head>
+<body>
+    <h1>Розклад:</h1>
+    <table>
+        <tr th:each="lesson : ${lessons}">
+            <td th:text="${lesson.getGroupName()}"></td>
+            <td th:text="${lesson.getDay().getDay()}"></td>
+            <td th:text="${lesson.getTeacher()}"></td>
+            <td th:text="${lesson.getWeekType().getType()}"></td>
+        </tr>
+    </table>
+</body>
+</html>

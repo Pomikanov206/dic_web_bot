@@ -11,11 +11,15 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String groupName;
-    private String day;
+    private Days day;
     private int number;
     private String lessonName;
     private String teacher;
     private String room;
+    private WeekType weekType;
+
+    public Lesson() {
+    }
 
     public int getId() {
         return id;
@@ -33,11 +37,11 @@ public class Lesson {
         this.groupName = groupName;
     }
 
-    public String getDay() {
+    public Days getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(Days day) {
         this.day = day;
     }
 
@@ -71,5 +75,13 @@ public class Lesson {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public WeekType getWeekType() {
+        return weekType;
+    }
+
+    public void setWeekType(WeekType weekType) {
+        this.weekType = weekType;
     }
 }

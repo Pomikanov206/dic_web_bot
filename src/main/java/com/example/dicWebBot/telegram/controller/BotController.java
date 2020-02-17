@@ -1,8 +1,10 @@
 package com.example.dicWebBot.telegram.controller;
 
+import com.example.dicWebBot.model.domain.Lesson;
 import com.example.dicWebBot.model.domain.User;
 import com.example.dicWebBot.model.ILesson;
 import com.example.dicWebBot.model.LessonDataBase;
+import com.example.dicWebBot.model.repos.LessonRepo;
 import com.example.dicWebBot.model.repos.UserRepo;
 import com.example.dicWebBot.telegram.view.Bot;
 
@@ -15,10 +17,12 @@ public class BotController {
     //private IUser userDataBase;
     private ILesson lessonDataBase;
     private UserRepo userRepo;
+    private LessonRepo lessonRepo;
 
-    public BotController(Bot view, UserRepo userRepo) {
+    public BotController(Bot view, UserRepo userRepo, LessonRepo lessonRepo) {
         this.view = view;
         this.userRepo = userRepo;
+        this.lessonRepo = lessonRepo;
         lessonDataBase = new LessonDataBase();
     }
 
@@ -44,15 +48,15 @@ public class BotController {
 
             switch (courseNum) {
                 case 1: groupList = new String[]{"КС-19-1", "ЕА-19-1"};break;
-                case 2: groupList = new String[]{"КС-18-1", "КС-19-2/11", "ЕА-18-1"};break;
-                case 3: groupList = new String[]{"КС-17-1", "КС-18-2/11", "ЕА-17-1"};break;
-                case 4: groupList = new String[]{"КС-16-1", "КС-17-2/11", "ЕА-16-1"};break;
-                default: groupList = new String[]{"КС-18-1", "КС-19-2/11", "ЕА-18-1"};
+                case 2: groupList = new String[]{"КС-18-1", "КС-19-2-11", "ЕА-18-1"};break;
+                case 3: groupList = new String[]{"КС-17-1", "КС-18-2-11", "ЕА-17-1"};break;
+                case 4: groupList = new String[]{"КС-16-1", "КС-17-2-11", "ЕА-16-1"};break;
+                default: groupList = new String[]{"КС-18-1", "КС-19-2-11", "ЕА-18-1"};
             }
             view.sendGroupPick(chatId, groupList);
         }
 
-        String groupRegex = "\\D{2}-\\d{2}-\\d/?(\\d{2})?";
+        String groupRegex = "\\D{2}-\\d{2}-\\d-?(\\d{2})?";
         pattern = Pattern.compile(groupRegex);
         //  \\w{2}-\\d{2}-\\d/?(\\d{2})?
         matcher = pattern.matcher(command);
@@ -66,9 +70,19 @@ public class BotController {
         //Main menu
         if(command.equals("Розклад")) {
             //System.out.println("Группа: " + userDataBase.readUser(chatId));
-            System.out.println("Группа: " + userRepo.findByChatId(chatId).get(0).getUserGroup());
-            String tibeTable = lessonDataBase.readLesson(userRepo.findByChatId(chatId).get(0).getUserGroup(),null);
-            view.sendTimeTable(chatId, tibeTable);
+            String group = userRepo.findByChatId(chatId).get(0).getUserGroup();
+            System.out.println("Группа: " + group);
+            //String tibeTable = lessonDataBase.readLesson(userRepo.findByChatId(chatId).get(0).getUserGroup(),null);
+            //-------->>  КОСТЫЛИЩЕ!!!!
+            String result = "";
+            for (Lesson lesson: lessonRepo.findByGroupName(group)
+                 ) {
+                result += lesson.getNumber() + ":" +
+                        lesson.getLessonName() + " (" +
+                        lesson.getTeacher() + ") - " +
+                        lesson.getRoom() + "\n";
+            }
+            view.sendTimeTable(chatId, result);
         }
         else if(command.equals("Экзамены"))
             view.sendExams(chatId,"Exams 1.0");

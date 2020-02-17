@@ -1,5 +1,6 @@
 package com.example.dicWebBot.web.controller;
 
+import com.example.dicWebBot.model.repos.LessonRepo;
 import com.example.dicWebBot.telegram.controller.BotController;
 import com.example.dicWebBot.model.domain.User;
 import com.example.dicWebBot.model.repos.UserRepo;
@@ -17,6 +18,8 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 public class GreetingController {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private LessonRepo lessonRepo;
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -36,7 +39,7 @@ public class GreetingController {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
                 Bot telegramBot = new Bot();
-                telegramBot.setController(new BotController(telegramBot, userRepo));
+                telegramBot.setController(new BotController(telegramBot, userRepo, lessonRepo));
                 telegramBotsApi.registerBot(telegramBot);
 
             } catch (TelegramApiRequestException e) {

@@ -12,6 +12,7 @@
     <p th:text="'Дисципліна: ' + ${lesson.lessonName}" />
     <p th:text="'Викладач: ' + ${lesson.teacher}" />
     <p th:text="'Аудитрія: ' + ${lesson.room}" />
+    <p th:text="'День: ' + ${lesson.weekType.getType()}" />
     <a href="/add-lesson"> Add new lesson!</a>
 </body>
 </html>

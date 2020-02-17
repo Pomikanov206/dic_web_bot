@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Add lesson to list</title>
@@ -7,12 +7,44 @@
 <body>
     <h1>Form: Add lesson:</h1>
     <form action="#" th:action="@{/add-lesson}" th:object="${lesson}" method="post">
-        <p>Група: <input type="text" th:field="*{groupName}" /></p>
-        <p>День: <input type="text" th:field="*{day}" /></p>
+        <p>Група:
+            <select th:field="*{groupName}" />
+                <option th:value="КС-19-1" th:text="КС-19-1"></option>
+                <option th:value="ЕА-19-1" th:text="ЕА-19-1"></option>
+                <option th:value="КС-18-1" th:text="КС-18-1"></option>
+                <option th:value="ЕА-18-1" th:text="ЕА-18-1"></option>
+                <option th:value="КС-19-2-11" th:text="КС-19-2-11"></option>
+                <option th:value="КС-17-1" th:text="КС-17-1"></option>
+                <option th:value="ЕА-17-1" th:text="ЕА-17-1"></option>
+                <option th:value="КС-18-2-11" th:text="КС-18-2-11"></option>
+            </select>
+        </p>
+        <p>День:
+            <!--
+            <select th:field="*{day}" />
+                <option th:value="Понеділок" th:text="Понеділок"></option>
+                <option th:value="Вівторок" th:text="Вівторок"></option>
+                <option th:value="Середа" th:text="Середа"></option>
+                <option th:value="Четверг" th:text="Четверг"></option>
+                <option th:value="Пятниця" th:text="Пятниця"></option>
+            </select>
+            -->
+            <select th:field="*{day}" />
+                <option th:each="day : ${T(com.example.dicWebBot.model.domain.Days).values()}"
+                        th:value="${day}"
+                        th:text="${day.getDay()}">День</option>
+            </select>
+        </p>
         <p>№: <input type="text" th:field="*{number}" /></p>
         <p>Дисципліна: <input type="text" th:field="*{lessonName}" /></p>
         <p>Викладач: <input type="text" th:field="*{teacher}" /></p>
         <p>Аудиторія: <input type="text" th:field="*{room}" /></p>
+        <ul>
+            <li th:each="week : ${T(com.example.dicWebBot.model.domain.WeekType).values()}">
+                <input type="radio" th:field="*{weekType}" th:value="${week}" />
+                <label th:for="${#ids.prev('weekType')}" th:text="${week.getType()}">week</label>
+            </li>
+        </ul>
         <p><input type="submit" value="Submit" /></p>
     </form>
 </body>

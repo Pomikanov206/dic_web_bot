@@ -1,13 +1,17 @@
 package com.example.dicWebBot.telegram.controller;
 
+import com.example.dicWebBot.model.domain.Days;
 import com.example.dicWebBot.model.domain.Lesson;
 import com.example.dicWebBot.model.domain.User;
 import com.example.dicWebBot.model.ILesson;
 import com.example.dicWebBot.model.LessonDataBase;
+import com.example.dicWebBot.model.domain.WeekType;
 import com.example.dicWebBot.model.repos.LessonRepo;
 import com.example.dicWebBot.model.repos.UserRepo;
 import com.example.dicWebBot.telegram.view.Bot;
 
+import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,7 +79,14 @@ public class BotController {
             //String tibeTable = lessonDataBase.readLesson(userRepo.findByChatId(chatId).get(0).getUserGroup(),null);
             //-------->>  КОСТЫЛИЩЕ!!!!
             String result = "";
-            for (Lesson lesson: lessonRepo.findByGroupName(group)
+            int dayNumber = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+            int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+//            List<Lesson> lessonList = lessonRepo.findByGroupNameAndDayAndWeekTypeBetween(
+//                    group, Days.getDay(dayNumber), WeekType.DENOMINATOR, WeekType.NONE);
+            List<Lesson> lessonList = lessonRepo.findByGroupNameAndDayAndWeekTypeBetween(
+                    group, Days.MONDAY, WeekType.DENOMINATOR, WeekType.NONE);
+
+            for (Lesson lesson: lessonList
                  ) {
                 result += lesson.getNumber() + ":" +
                         lesson.getLessonName() + " (" +

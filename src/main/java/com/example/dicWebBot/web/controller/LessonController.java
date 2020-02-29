@@ -6,9 +6,8 @@ import com.example.dicWebBot.model.repos.LessonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,9 +29,36 @@ public class LessonController {
         return "lesson-list";
     }
 
-    @GetMapping("timetable")
+    @GetMapping("/timetable")
     public String timeTable(Model model) {
-        List<Lesson> lessonList = lessonRepo.findByGroupName("КС-19-2-11");
+        //List<Lesson> lessonList = lessonRepo.findByGroupName("КС-19-2-11");
+        //List<Lesson> lessonList = lessonRepo.findByGroupNameAndDay("КС-19-2-11", Days.MONDAY);
+        List<Lesson> lessonList = lessonRepo.findAll();
+        model.addAttribute("lessons",lessonList);
+        return "timetable";
+    }
+
+    @GetMapping("/delete-lesson/{id}")
+    public String deleteLesson(@PathVariable Integer id, Model model) {
+        lessonRepo.deleteById(id);
+        List<Lesson> lessonList = lessonRepo.findAll();
+        model.addAttribute("lessons",lessonList);
+        return "timetable";
+    }
+
+    @GetMapping("/update-lesson/{id}")
+    public String updateLesson(@PathVariable Integer id, Model model) {
+        Lesson lesson = lessonRepo.findById(id).get();
+        model.addAttribute("lesson", lesson);
+        return "update-lesson";
+    }
+
+    //@PostMapping("/update-lesson")
+    @RequestMapping(value = "/update-lesson", method = RequestMethod.POST)
+    public String updateLesson(@ModelAttribute Lesson lesson,  Model  model) {
+
+        lessonRepo.save(lesson);
+        List<Lesson> lessonList = lessonRepo.findAll();
         model.addAttribute("lessons",lessonList);
         return "timetable";
     }

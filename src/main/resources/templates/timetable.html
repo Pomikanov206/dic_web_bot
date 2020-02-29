@@ -5,14 +5,45 @@
     <title>Розклад</title>
 </head>
 <body>
+    <style>
+        .update-form {
+            display: none;
+        }
+    </style>
     <h1>Розклад:</h1>
     <table>
-        <tr th:each="lesson : ${lessons}">
-            <td th:text="${lesson.getGroupName()}"></td>
-            <td th:text="${lesson.getDay().getDay()}"></td>
+        <tr th:each="lesson, iStat : ${lessons}">
+            <td th:text="${lesson.id}"></td>
+            <td th:text="${lesson.number}"></td>
+            <td th:text="${lesson.groupName}"></td>
+            <!--<td th:text="${lesson.day.day}"></td>-->
+            <td th:text="${lesson.lessonName}"></td>
             <td th:text="${lesson.getTeacher()}"></td>
             <td th:text="${lesson.getWeekType().getType()}"></td>
+            <td>
+                <!--<button type="button" name="editLesson" th:for="${'update-button' + iStat.index}"
+                        th:value="${less.getId()}" th:text="Edit">Edit Button
+                </button>-->
+                <a th:href="@{/update-lesson/{lessonId}(lessonId=${lesson.id})}">Edit</a>
+            </td>
+            <td>
+                <!--
+                <button type="submit" name="removeLesson"
+                        th:value="${lesson.getId()}" th:text="Remove">Remove button
+                </button>
+                -->
+                <a th:href="@{/delete-lesson/{lessonId}(lessonId=${lesson.id})}">Delete</a>
+            </td>
         </tr>
+        <!--<script>-->
+        <!--$(function() {-->
+        <!--$("#update-form" + [[iStat.index]]).hide(); // скрываем элементы-->
+        <!--$("#update-button" + [[iStat.index]]).on('click', function() { // указываем кнопку при клике на которую покажутся элементы-->
+        <!--$("#update-form" + [[iStat.index]]).show(); // показываем элементы-->
+        <!--appNormalise();-->
+        <!--})-->
+        <!--});-->
+        <!--</script>-->
     </table>
 </body>
 </html>

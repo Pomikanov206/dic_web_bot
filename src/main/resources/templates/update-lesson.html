@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Оновити предмет</title>
+</head>
+<body>
+    <h2>Оновити предмет:</h2>
+    <form action="#" th:action="@{/update-lesson}" th:object="${lesson}" method="post" >
+        <p>ID: <input type="text" th:field="*{id}" th:value="*{id}"/></p>
+        <p>Дисципліна: <input type="text" th:field="*{lessonName}" /></p>
+        <p>Викладач: <input type="text" th:field="*{teacher}" /></p>
+        <p>Аудиторія: <input type="text" th:field="*{room}" /></p>
+        <ul>
+            <li th:each="week : ${T(com.example.dicWebBot.model.domain.WeekType).values()}">
+                <input type="radio" th:field="*{weekType}" th:value="${week}" />
+                <label th:for="${#ids.prev('weekType')}" th:text="${week.getType()}">week</label>
+            </li>
+        </ul>
+        <button type="submit" th:text="update">Update button</button>
+    </form>
+</body>
+</html>

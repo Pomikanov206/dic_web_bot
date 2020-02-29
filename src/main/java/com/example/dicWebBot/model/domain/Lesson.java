@@ -1,9 +1,6 @@
 package com.example.dicWebBot.model.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Lesson {
@@ -11,11 +8,13 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String groupName;
+    @Enumerated(EnumType.STRING)
     private Days day;
     private int number;
     private String lessonName;
     private String teacher;
     private String room;
+    @Enumerated(EnumType.STRING)
     private WeekType weekType;
 
     public Lesson() {

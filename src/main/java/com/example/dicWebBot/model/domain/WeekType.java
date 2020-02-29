@@ -14,4 +14,12 @@ public enum WeekType {
     public String getType(){
         return type;
     }
+    /*
+    public static WeekType getType(int number) {
+        if (number%2 == 1)
+            return DENOMINATOR;
+        else
+            return NUMERATOR;
+    }
+    */
 }

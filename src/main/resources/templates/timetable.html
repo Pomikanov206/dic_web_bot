@@ -19,7 +19,7 @@
             <!--<td th:text="${lesson.day.day}"></td>-->
             <td th:text="${lesson.lessonName}"></td>
             <td th:text="${lesson.getTeacher()}"></td>
-            <td th:text="${lesson.getWeekType().getType()}"></td>
+            <td th:text="${lesson.getWeekType()}"></td>
             <td>
                 <!--<button type="button" name="editLesson" th:for="${'update-button' + iStat.index}"
                         th:value="${less.getId()}" th:text="Edit">Edit Button

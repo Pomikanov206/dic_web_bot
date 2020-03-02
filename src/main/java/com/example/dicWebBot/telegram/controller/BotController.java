@@ -9,8 +9,10 @@ import com.example.dicWebBot.model.domain.WeekType;
 import com.example.dicWebBot.model.repos.LessonRepo;
 import com.example.dicWebBot.model.repos.UserRepo;
 import com.example.dicWebBot.telegram.view.Bot;
+import org.springframework.data.domain.Sort;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,8 +85,35 @@ public class BotController {
             int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 //            List<Lesson> lessonList = lessonRepo.findByGroupNameAndDayAndWeekTypeBetween(
 //                    group, Days.getDay(dayNumber), WeekType.DENOMINATOR, WeekType.NONE);
-            List<Lesson> lessonList = lessonRepo.findByGroupNameAndDayAndWeekTypeBetween(
-                    group, Days.MONDAY, WeekType.DENOMINATOR, WeekType.NONE);
+
+            Days day = Days.getDay(dayNumber);
+            WeekType currentWeek = WeekType.getType(weekNumber);
+            /*List<Lesson> lessonList = lessonRepo.findByGroupNameAndDayAndWeekTypeBetween(
+                    group,
+                    Days.TUESDAY,
+                    WeekType.NONE, WeekType.DENOMINATOR,
+                    Sort.by("number"));
+            */
+
+            List<Lesson> lessonList = lessonRepo.findByGroupNameAndDayAndWeekType(
+                    group,
+                    day,
+                    currentWeek,
+                    Sort.by("number"));
+
+            lessonList.addAll(lessonRepo.findByGroupNameAndDayAndWeekType(
+                    group,
+                    day,
+                    currentWeek,
+                    Sort.by("number")
+            ));
+
+            lessonList.sort(new Comparator<Lesson>() {
+                @Override
+                public int compare(Lesson o1, Lesson o2) {
+                    return o1.getNumber() - o2.getNumber();
+                }
+            });
 
             for (Lesson lesson: lessonList
                  ) {

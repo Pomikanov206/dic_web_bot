@@ -104,7 +104,7 @@ public class BotController {
             lessonList.addAll(lessonRepo.findByGroupNameAndDayAndWeekType(
                     group,
                     day,
-                    currentWeek,
+                    WeekType.NONE,
                     Sort.by("number")
             ));
 

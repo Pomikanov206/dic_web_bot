@@ -21,6 +21,8 @@ public class GreetingController {
     @Autowired
     private LessonRepo lessonRepo;
 
+    private static Runnable botThread;
+
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -32,9 +34,11 @@ public class GreetingController {
         return "greeting";
     }
 
-    @GetMapping("/starting")
+    @GetMapping("/")
     public String start(Model model) {
-        ((Runnable) () -> {
+        if (botThread != null)
+            return "starting";
+        botThread = ((Runnable) () -> {
             ApiContextInitializer.init();
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
@@ -45,7 +49,8 @@ public class GreetingController {
             } catch (TelegramApiRequestException e) {
                 e.printStackTrace();
             }
-        }).run();
+        });
+        botThread.run();
         return "starting";
     }
 
